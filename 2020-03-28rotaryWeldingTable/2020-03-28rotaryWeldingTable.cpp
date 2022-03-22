@@ -1,5 +1,5 @@
 //Rotary table for welding purposes with 27:1 nema motor.
-#include <AccelStepper.h>
+#include "AccelStepper.h"
 // Define stepper motor connections and motor interface type. Motor interface type must be set to 1 when using a driver:
 #define dirPin 5 // dir x pin
 #define stepPin 2 // step x pin
@@ -29,13 +29,12 @@ void loop() {
 
   stepper.setAcceleration(map((analogRead(analogAccelleration)),0,1023,300,12000));
   if(!digitalRead(startPin)){
-  stepper.setMaxSpeed(map((analogRead(analogSpeed)),0,1023,300,12000));
-//  delay(100);
-  delay(map((analogRead(analogDelay)),0,1023,100,30000));
-  digitalWrite(enablePin, LOW); // this enables the motor
+  stepper.setMaxSpeed(map((analogRead(analogSpeed)),0,1023,90,14400));			// 720pulses/rpm - maximum speed from x*60/(200*27*8) rpm to y*60/(200*27*8) rpm (60sec per minute, 200 steps per internal rev, 27:1 gearbox, 8 microsteps per step)
+  delay(map((analogRead(analogDelay)),0,1023,100,30000));  						// delay in ms (from 0.1 - 60 seconds)
+  digitalWrite(enablePin, LOW); 												// this enables the motor
 
 
- stepper.moveTo(43200+map((analogRead(analogDistance)),0,1023,0,10000));  // 200*8*27=43200 (200 steps per rev, 27:1 gearbox)
+ stepper.moveTo(100+map((analogRead(analogDistance)),0,1023,0,86400));  // 0 - 2 revolutions - 200*8*27=43200 steps per rev (200 steps per internal rev, 27:1 gearbox, 8 microsteps per step)
  stepper.runToPosition();
  stepper.setCurrentPosition(0);
  digitalWrite(enablePin, HIGH); // disable the motor
