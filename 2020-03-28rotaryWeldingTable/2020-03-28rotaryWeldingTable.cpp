@@ -27,9 +27,9 @@ void setup() {
 }
 void loop() {
 
-  stepper.setAcceleration(map((analogRead(analogAccelleration)),0,1023,100,4000));
+  stepper.setAcceleration(map((analogRead(analogAccelleration)),0,1023,40,2000));	// set the acceleration and deceleration limits of the stepper motor
   if(!digitalRead(startPin)){
-  stepper.setMaxSpeed(map((analogRead(analogSpeed)),0,1023,90,5040));			// 720pulses/rpm - maximum speed from x*60/(200*27*8) rpm to y*60/(200*27*8) rpm (60sec per minute, 200 steps per internal rev, 27:1 gearbox, 8 microsteps per step)
+  stepper.setMaxSpeed(map((analogRead(analogSpeed)),0,1023,90,3600));			// 720pulses/rpm - maximum speed from x*60/(200*27*8) rpm to y*60/(200*27*8) rpm (60sec per minute, 200 steps per internal rev, 27:1 gearbox, 8 microsteps per step)
   delay(map((analogRead(analogDelay)),0,1023,100,20000));  						// delay in ms (from 0.1 - 60 seconds)
   digitalWrite(enablePin, LOW); 												// this enables the motor
 
